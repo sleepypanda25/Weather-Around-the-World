@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import pandas as pd
 import csv
+import sqlalchemy as sa
 
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
@@ -44,6 +45,7 @@ try:
 
     # --- Data Cleaning & Transformation ---
     df = pd.DataFrame(data)
+    print("Before", df.head())
 
     # Confirmed no null entries
     # Date/Time entries will remain strings since only the date of the week is in
@@ -53,11 +55,17 @@ try:
     # Sort entries by alphabetical order of cities
     df.sort_values(by='City', ascending=True, inplace=True)
     df.reset_index(inplace=True, drop=True)
-    print(df.head())
 
     # Check for duplicates (not really necessary since data is directly from website
     # and I can guarantee entries are unique, but done as an extra precaution)
-    print("\nDuplicates: " + df.duplicated().sum())
+    print("\nDuplicates: ", df.duplicated().sum())
+
+    print("After: ", df.head())
+
+    # Make Sqlite database
+    engine = sa.create_engine('sqlite:///weather.db')
+
+    df.to_sql('weather', engine, if_exists='append', index=False)
 except Exception as e:
     print(e)
 finally:
