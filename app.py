@@ -6,7 +6,7 @@ import sqlite3
 @st.cache_data
 def load_weather():
     conn = sqlite3.connect("weather.db")
-    df = pd.read_sql_query("SELECT * FROM weather", engine)
+    df = pd.read_sql_query("SELECT * FROM weather", conn)
     conn.close()
     return df
 
