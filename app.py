@@ -7,8 +7,9 @@ import sqlite3
 def load_weather():
     conn = sqlite3.connect("weather.db")
     df = pd.read_sql_query("SELECT * FROM weather", conn)
-    df['Temperature'] = (df['Temperature'].str.replace(r'[^\d.-]', '', regex=True).astype(float))
+    #df['Temperature'] = (df['Temperature'].str.replace(r'[^\d.-]', '', regex=True).astype(float))
     conn.close()
+    print(df.info())
     return df
 
 df = load_weather()
@@ -54,6 +55,7 @@ elif selected_graph == 'Hottest and Coldest Cities':
     topn = st.slider("Select number of top cities on each extreme to display", min_value=1, max_value=20, value=10, step=1, key="topn_slider")
     temp_sorted = df.sort_values(by='Temperature')
     extremes = pd.concat([temp_sorted.head(topn), temp_sorted.tail(topn)])
+    print(extremes.head(20))
     extremes_chart = px.bar(extremes, x='City', y='Temperature',  color='Temperature', title='Hottest and Coldest Cities')
     extremes_chart.update_layout(yaxis_title="Temperature (°F)")
     st.plotly_chart(extremes_chart)
