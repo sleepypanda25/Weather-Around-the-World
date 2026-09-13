@@ -7,7 +7,10 @@ import sqlite3
 def load_weather():
     conn = sqlite3.connect("weather.db")
     df = pd.read_sql_query("SELECT * FROM weather", conn)
+    df['Temperature'] = (df['Temperature'].str.replace(r'[^\d.-]', '', regex=True).astype(float))
+    print('Temperature', df['Temperature'].head())
     conn.close()
+    print(len(df), df.dtypes)
     return df
 
 df = load_weather()
