@@ -75,8 +75,6 @@ try:
     print("\nAfter: ", df.head())
 
     # Make Sqlite database
-    df['Temperature'] = (df['Temperature'].str.replace(r'[^\d.-]', '', regex=True).astype(float))
-
     engine = sa.create_engine('sqlite:///weather.db')
 
     df.to_sql('weather', engine, if_exists='replace', index=False)
