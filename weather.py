@@ -77,7 +77,9 @@ try:
     # Make Sqlite database
     engine = sa.create_engine('sqlite:///weather.db')
 
-    df.to_sql('weather', engine, if_exists='append', index=False)
+    df['Temperature'] = (df['Temperature'].str.replace(r'[^\d.-]', '', regex=True).astype(float))
+
+    df.to_sql('weather', engine, if_exists='replace', index=False)
 except Exception as e:
     traceback.print_exc()
 finally:
