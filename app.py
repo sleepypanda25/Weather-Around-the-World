@@ -8,9 +8,7 @@ def load_weather():
     conn = sqlite3.connect("weather.db")
     df = pd.read_sql_query("SELECT * FROM weather", conn)
     df['Temperature'] = (df['Temperature'].str.replace(r'[^\d.-]', '', regex=True).astype(float))
-    print('Temperature', df['Temperature'].head())
     conn.close()
-    print(len(df), df.dtypes)
     return df
 
 df = load_weather()
@@ -30,6 +28,7 @@ st.title("Weather Dashboard")
 
 # --- Data Visualization ---
 df['Time'] = df['Date/Time'].str.split(n=1).str[1]
+df['Time'] = df['Time'].str.replace('noon', 'pm', regex=False)
 df['Time'] = (pd.to_datetime(df['Time'], format='%I:%M %p').dt.floor('h').dt.hour)
 df = df[(df['Temperature'] >= temperature_filter[0]) & (df['Temperature'] <= temperature_filter[1])]
 df = df[(df['Time'] >= time_lower_filter[0]) & (df['Time'] <= time_lower_filter[1])]
