@@ -6,14 +6,11 @@ import sqlite3
 @st.cache_data
 def load_weather():
     conn = sqlite3.connect("weather.db")
-    df = pd.read_sql_query("SELECT * FROM weather", conn)
+    df = pd.read_sql_query("SELECT * FROM weather", engine)
     conn.close()
     return df
 
 df = load_weather()
-
-st.write(df.dtypes)
-st.write(len(df), df['Temperature'].head())
 
 # --- Dashboard ---
 # Sidebar
