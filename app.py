@@ -12,6 +12,9 @@ def load_weather():
 
 df = load_weather()
 
+st.write(df.dtypes)
+st.write(len(df), df['Temperature'].head())
+
 # --- Dashboard ---
 # Sidebar
 st.sidebar.title("Filter Options")
