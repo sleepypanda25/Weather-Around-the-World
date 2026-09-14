@@ -33,7 +33,7 @@ Run the dashboard:
 
     python weather.py
 
-Requires Chrome installed. The scraper replaces the table each run.
+Requires Chrome installed. The scraper replaces the table on each run.
 
 ## Project structure
 
