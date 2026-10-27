@@ -40,4 +40,4 @@ Requires Chrome installed. The scraper replaces the table on each run.
     weather.py       scraping, cleaning, writes to weather.db
     app.py           Streamlit dashboard, reads weather.db
     weather.db       cleaned scraped data
-    weather.csv      raaw scraped data
+    weather.csv      raw scraped data
